@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, FlatList, StyleSheet, Image } from "react-native";
 import configureStore from "../../store/configureStore";
 import { loadCovidData } from "./Home";
 import colors from "../../styles/colors";
 import AppScreen from "../../components/AppScreen";
+import StoreContext from "../../store/StoreContext";
 
 function HomeScreen(props) {
   const [data, setData] = useState([]);
 
-  const store = configureStore();
+  const store = useContext(StoreContext);
+
   useEffect(() => {
     store.dispatch(loadCovidData());
   }, []);
@@ -33,7 +35,7 @@ function HomeScreen(props) {
   );
 
   const unsubscribe = store.subscribe(() => {
-    const covidDataStore = store.getState().list;
+    const covidDataStore = store.getState().home.list;
     if (data !== covidDataStore)
       setData(
         covidDataStore.slice(

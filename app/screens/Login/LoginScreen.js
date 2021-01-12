@@ -1,19 +1,30 @@
-import React from "react";
+import React, { useContext } from "react";
 import AppScreen from "../../components/AppScreen";
 import AppTextInput from "../../components/AppTextInput";
 import Buttons from "../../components/Buttons";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, Image, View, Text } from "react-native";
+import configureStore from "../../store/configureStore";
+import { loadUserData } from "./Login";
+import StoreContext from "../../store/StoreContext";
 
 function LoginScreen({ navigation }) {
+  const store = useContext(StoreContext);
+  const unsubscribe = store.subscribe(() => {
+    const covidDataStore = store.getState().user;
+    console.log("state: ", covidDataStore);
+  });
   return (
     <AppScreen>
-      <Image style={styles.logo} source={require("../../assets/logo.png")} />
+      <View style={styles.container}>
+        <Image style={styles.logo} source={require("../../assets/logo.png")} />
+        <Text style={styles.logoText}>COVID-19</Text>
+      </View>
       <AppTextInput icon="email" placeholder="Email" />
       <AppTextInput icon="lock" placeholder="Password" />
       <Buttons
         title="Login"
         onPress={() => {
-          navigation.navigate("Home");
+          store.dispatch(loadUserData());
         }}
       ></Buttons>
     </AppScreen>
@@ -23,12 +34,17 @@ function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
+    margin: 32,
   },
   logo: {
     width: 100,
     height: 100,
-    margin: 24,
+    marginBottom: 16,
     alignSelf: "center",
+  },
+  logoText: {
+    fontSize: 24,
+    fontWeight: "700",
   },
 });
 

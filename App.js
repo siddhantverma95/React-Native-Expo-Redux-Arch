@@ -1,11 +1,17 @@
 import React from "react";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import AuthNavigator from "./app/routes/AuthNavigator";
+import { NavigationContainer } from "@react-navigation/native";
+import AppNavigator from "./app/routes/AppNavigator";
+import myTheme from "./app/routes/navigationTheme";
+import configureStore from "./app/store/configureStore";
+import StoreContext from "./app/store/StoreContext";
 
 export default function App() {
+  const store = configureStore();
   return (
-    <NavigationContainer>
-      <AuthNavigator />
-    </NavigationContainer>
+    <StoreContext.Provider value={store}>
+      <NavigationContainer theme={myTheme}>
+        <AppNavigator />
+      </NavigationContainer>
+    </StoreContext.Provider>
   );
 }

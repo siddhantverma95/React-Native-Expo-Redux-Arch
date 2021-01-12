@@ -1,5 +1,5 @@
 import repo from "../repository/index";
-import * as actions from "../config/api";
+import * as actions from "../store/coreActions";
 
 const apiMiddleware = ({ dispatch }) => (next) => async (action) => {
   if (action.type !== actions.apiCallBegan.type) return next(action);

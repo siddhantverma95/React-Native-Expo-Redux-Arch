@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { apiCallBegan } from "../../config/api";
+import { apiCallBegan } from "../../store/coreActions";
 import { DATA_URL } from "../../config/constants";
 
 const slice = createSlice({
